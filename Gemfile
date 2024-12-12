@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -18,7 +20,7 @@ gem "puma", ">= 5.0"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: [:windows, :jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -30,14 +32,20 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "pry", "~> 0.15.0"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
 end
 
+group :development do
+  # rubocop kit
+  gem "rubocop", "~> 1.69"
+  gem "rubocop-performance", "~> 1.23"
+  gem "rubocop-rails", "~> 2.27"
+  gem "rubocop-shopify", "~> 2.15"
+  gem "rubocop-rspec", "~> 3.3"
 
+  # The Ruby LSP is an implementation of the language server protocol for Ruby [https://github.com/Shopify/ruby-lsp]
+  gem "ruby-lsp", "~> 0.22.1"
+end
