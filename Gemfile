@@ -32,10 +32,28 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 group :development, :test do
+  # Pry is a runtime developer console and IRB alternative with powerful introspection capabilities. [https://github.com/pry/pry]
   gem "pry", "~> 0.15.0"
+
+  # It's a library for generating fake data such as names, addresses, and phone numbers [https://github.com/faker-ruby/faker]
+  gem "faker", "~> 3.5"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
+end
+
+group :test do
+  # rspec-rails brings the RSpec testing framework to Ruby on Rails [https://github.com/rspec/rspec-rails]
+  gem "rspec-rails", "~> 7.1"
+
+  # factory_bot is a fixtures replacement [https://github.com/thoughtbot/factory_bot_rails]
+  gem "factory_bot_rails", "~> 6.4"
+
+  # Database Cleaner is a set of gems containing strategies for cleaning your database in Ruby. [https://github.com/DatabaseCleaner/database_cleaner]
+  gem "database_cleaner-active_record", "~> 2.2"
+
+  # Shoulda Matchers provides RSpec- and Minitest-compatible one-liners to test common Rails functionality [https://github.com/thoughtbot/shoulda-matchers]
+  gem "shoulda-matchers", "~> 6.4"
 end
 
 group :development do
