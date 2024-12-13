@@ -1,0 +1,73 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Project academic_performance_api {
+    database_type: 'PostgreSQL'
+    Note: 'Academic performance management'
+}
+
+Table cicles [note: "Relation many-to-many between students and subjects"] {
+  id integer [primary key]
+  month integer
+  year integer [not null, default: 2024]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    (month, year) [name: "index_cicles_on_month_and_year"]
+  }
+}
+
+Table students {
+  id integer [primary key]
+  name varchar [not null, default: '']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table subjects {
+  id integer [primary key]
+  name varchar [not null, default: '']
+  calculation_type integer [not null, default: 0]
+  days_interval integer
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table students_subjects_cicles [note: "Relation many-to-many between students, subjects and cicles"] {
+  id integer [primary key]
+  student_id integer [not null]
+  subject_id integer [not null]
+  cicle_id integer [not null]
+  obtained float
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    cicle_id [name: "index_students_subjects_cicles_on_cicle_id"]
+    (student_id, subject_id, cicle_id) [name: "idx_on_student_id_subject_id_cicle_id_2220535847"]
+    student_id [name: "index_students_subjects_cicles_on_student_id"]
+    subject_id [name: "index_students_subjects_cicles_on_subject_id"]
+  }
+}
+
+Table grades {
+  id integer [primary key]
+  student_id integer
+  subject_id integer
+  obtained float [not null, default: 0.0]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    student_id [name: "index_grades_on_student_id"]
+    subject_id [name: "index_grades_on_subject_id"]
+  }
+}
+
+Ref: subjects.id < grades.subject_id
+Ref: students.id < grades.subject_id
+
+Ref: students.id < students_subjects_cicles.student_id
+Ref: subjects.id < students_subjects_cicles.subject_id
+Ref: cicles.id < students_subjects_cicles.cicle_id
