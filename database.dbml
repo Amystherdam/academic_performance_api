@@ -51,6 +51,21 @@ Table students_subjects_cicles [note: "Relation many-to-many between students, s
   }
 }
 
+Table overall_student_grades {
+  id integer [primary key]
+  student_id integer [not null]
+  cicle_id integer [not null]
+  obtained float
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    cicle_id [name: "index_overall_student_grades_on_cicle_id"]
+    (student_id, cicle_id) [name: "index_overall_student_grades_on_student_id_and_cicle_id"]
+    student_id [name: "index_overall_student_grades_on_student_id"]
+  }
+}
+
 Table grades {
   id integer [primary key]
   student_id integer
@@ -71,3 +86,6 @@ Ref: students.id < grades.subject_id
 Ref: students.id < students_subjects_cicles.student_id
 Ref: subjects.id < students_subjects_cicles.subject_id
 Ref: cicles.id < students_subjects_cicles.cicle_id
+
+Ref: students.id < overall_student_grades.student_id
+Ref: cicles.id < overall_student_grades.cicle_id
