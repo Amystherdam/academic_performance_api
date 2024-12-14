@@ -6,14 +6,15 @@ class ClosingAcademicPeriodJob
   include Sidekiq::Job
 
   def perform
-    calculate_final_subject_grades_by_student
+    cicle = Cicle.find_by(month: Time.now.utc.month, year: Time.now.utc.year)
+
+    calculate_final_subject_grades_by_student(cicle)
+    calculate_students_final_grade(cicle)
   end
 
   private
 
-  def calculate_final_subject_grades_by_student
-    cicle = Cicle.find_by(month: Time.now.utc.month, year: Time.now.utc.year)
-
+  def calculate_final_subject_grades_by_student(cicle)
     Student.find_each do |student|
       Subject.find_each do |subject|
         student_subject_cicle = StudentSubjectCicle.find_or_create_by(student_id: student.id, subject_id: subject.id, cicle_id: cicle.id)
@@ -32,6 +33,17 @@ class ClosingAcademicPeriodJob
 
         student_subject_cicle.save!
       end
+    end
+  end
+
+  def calculate_students_final_grade(cicle)
+    Student.find_each do |student|
+      student_subject_cicle_grades = StudentSubjectCicle.where(student_id: student.id, cicle_id: cicle.id)
+      student_subject_cicle_grades_average = (student_subject_cicle_grades.pluck(:obtained).sum / student_subject_cicle_grades.count).round(2)
+
+      overall_student_grade = OverallStudentGrade.find_or_create_by(student_id: student.id, cicle_id: cicle.id)
+      overall_student_grade.obtained = student_subject_cicle_grades_average
+      overall_student_grade.save!
     end
   end
 end

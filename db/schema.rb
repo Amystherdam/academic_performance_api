@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_13_072103) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_14_045457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_072103) do
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_grades_on_student_id"
     t.index ["subject_id"], name: "index_grades_on_subject_id"
+  end
+
+  create_table "overall_student_grades", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "cicle_id", null: false
+    t.float "obtained"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cicle_id"], name: "index_overall_student_grades_on_cicle_id"
+    t.index ["student_id", "cicle_id"], name: "index_overall_student_grades_on_student_id_and_cicle_id", unique: true
+    t.index ["student_id"], name: "index_overall_student_grades_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -61,6 +72,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_13_072103) do
 
   add_foreign_key "grades", "students"
   add_foreign_key "grades", "subjects"
+  add_foreign_key "overall_student_grades", "cicles"
+  add_foreign_key "overall_student_grades", "students"
   add_foreign_key "students_subjects_cicles", "cicles"
   add_foreign_key "students_subjects_cicles", "students"
   add_foreign_key "students_subjects_cicles", "subjects"
