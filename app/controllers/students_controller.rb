@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StudentsController < ApplicationController
-  before_action :set_student, only: [:show, :update, :destroy]
+  before_action :set_student, only: [:parcial_grades, :final_grades]
 
   # GET /students
   def index
@@ -11,33 +11,78 @@ class StudentsController < ApplicationController
   end
 
   # GET /students/1
-  def show
-    render(json: @student)
-  end
+  # def show
+  #   render(json: @student)
+  # end
 
   # POST /students
-  def create
-    @student = Student.new(student_params)
+  # def create
+  #   @student = Student.new(student_params)
 
-    if @student.save
-      render(json: @student, status: :created, location: @student)
-    else
-      render(json: @student.errors, status: :unprocessable_entity)
-    end
-  end
+  #   if @student.save
+  #     render(json: @student, status: :created, location: @student)
+  #   else
+  #     render(json: @student.errors, status: :unprocessable_entity)
+  #   end
+  # end
 
   # PATCH/PUT /students/1
-  def update
-    if @student.update(student_params)
-      render(json: @student)
-    else
-      render(json: @student.errors, status: :unprocessable_entity)
-    end
-  end
+  # def update
+  #   if @student.update(student_params)
+  #     render(json: @student)
+  #   else
+  #     render(json: @student.errors, status: :unprocessable_entity)
+  #   end
+  # end
 
   # DELETE /students/1
-  def destroy
-    @student.destroy!
+  # def destroy
+  #   @student.destroy!
+  # end
+
+  def parcial_grades
+    grades = Grade.includes(:student, :subject).where(student_id: @student.id)
+
+    render(json: grades.map do |grade|
+      {
+        student_id: grade.student.id,
+        student_name: grade.student.name,
+        subject_name: grade.subject.name,
+        obtained: grade.obtained,
+      }
+    end)
+  end
+
+  def final_grades
+    grades = StudentSubjectCicle.joins(:cicle).includes(:student, :subject, :cicle).where(
+      student_id: @student.id,
+      cicles: { month: (Time.now.utc - 1.month).month, year: Time.now.utc.year },
+    )
+
+    render(json: grades.map do |grade|
+      {
+        student_id: grade.student.id,
+        student_name: grade.student.name,
+        subject_name: grade.subject.name,
+        obtained: grade.obtained,
+      }
+    end)
+  end
+
+  # GET /students/bests
+  def bests
+    overall_student_grades = OverallStudentGrade.joins(:cicle).includes(:student).where(cicles: {
+      month: (Time.now.utc - 1.month).month,
+      year: Time.now.utc.year,
+    }).order(obtained: :desc).limit(student_params[:size])
+
+    render(json: overall_student_grades.map do |overall_student_grade|
+      {
+        student_id: overall_student_grade.student.id,
+        student_name: overall_student_grade.student.name,
+        obtained: overall_student_grade.obtained,
+      }
+    end)
   end
 
   private
@@ -49,6 +94,6 @@ class StudentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def student_params
-    params.require(:student).permit(:name)
+    params.permit(:size)
   end
 end
