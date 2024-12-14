@@ -17,10 +17,10 @@ if Rails.env.development?
   spinner_cicle = TTY::Spinner.new("[:spinner] Creating cicles ...")
   spinner_cicle.auto_spin
 
-  15.times do
+  12.times do |index|
     Cicle.find_or_create_by(
-      month: Random.rand(0..11),
-      year: Random.rand(2024..2026),
+      month: index + 1,
+      year: 2024,
     )
   end
 
@@ -30,13 +30,14 @@ if Rails.env.development?
   spinner_subject = TTY::Spinner.new("[:spinner] Creating subjects ...")
   spinner_subject.auto_spin
 
-  4.times do
+  4.times do |index|
     subject = Subject.find_or_create_by(
-      name: Faker::Educator.subject,
-      calculation_type: Random.rand(0..1),
+      name: "Disciplina #{index + 1}",
+      calculation_type: index >= 2 ? 1 : 0,
     )
 
-    subject.days_interval = Random.rand(90..365) if subject.calculation_type == :last_days_average
+    subject.days_interval = Random.rand(90..365) if subject.calculation_type == "last_days_average"
+    subject.save!
   end
 
   spinner_subject.success("[OK!]")
