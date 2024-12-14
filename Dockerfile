@@ -15,7 +15,7 @@ RUN apt-get update -qq && \
 # Configure postgres access
 RUN useradd -m postgres
 
-RUN echo "postgres:<secret>" | chpasswd
+RUN echo "postgres:<postgres>" | chpasswd
 
 RUN usermod -aG sudo postgres
 

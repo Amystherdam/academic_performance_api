@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :cicle do
-    month { 0 }
+    month { 1 }
     year { 2024 }
   end
 end

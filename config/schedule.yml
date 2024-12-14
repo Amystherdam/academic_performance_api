@@ -1,0 +1,4 @@
+closing_academic_period:
+  cron: "0 0 1 * *"
+  class: "ClosingAcademicPeriodJob"
+  queue: default
