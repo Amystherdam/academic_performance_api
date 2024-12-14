@@ -6,7 +6,9 @@ class ClosingAcademicPeriodJob
   include Sidekiq::Job
 
   def perform
-    cicle = Cicle.find_by(month: Time.now.utc.month, year: Time.now.utc.year)
+    cicle = Cicle.find_by(month: (Time.now.utc - 1.month).month, year: Time.now.utc.year)
+
+    return if cicle.nil?
 
     calculate_final_subject_grades_by_student(cicle)
     calculate_students_final_grade(cicle)
