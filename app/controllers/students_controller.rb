@@ -5,9 +5,18 @@ class StudentsController < ApplicationController
 
   # GET /students
   def index
-    @students = Student.all
+    overall_student_grades = OverallStudentGrade.joins(:cicle).includes(:student).where(cicles: {
+      month: (Time.now.utc - 1.month).month,
+      year: Time.now.utc.year,
+    })
 
-    render(json: @students)
+    render(json: overall_student_grades.map do |overall_student_grade|
+      {
+        id: overall_student_grade.student.id,
+        name: overall_student_grade.student.name,
+        obtained: overall_student_grade.obtained,
+      }
+    end)
   end
 
   # GET /students/1
@@ -40,6 +49,7 @@ class StudentsController < ApplicationController
   #   @student.destroy!
   # end
 
+  # GET /students/1/parcial_grades
   def parcial_grades
     grades = Grade.includes(:student, :subject).where(student_id: @student.id)
 
@@ -53,6 +63,7 @@ class StudentsController < ApplicationController
     end)
   end
 
+  # GET /students/1/final_grades
   def final_grades
     grades = StudentSubjectCicle.joins(:cicle).includes(:student, :subject, :cicle).where(
       student_id: @student.id,
@@ -74,7 +85,7 @@ class StudentsController < ApplicationController
     overall_student_grades = OverallStudentGrade.joins(:cicle).includes(:student).where(cicles: {
       month: (Time.now.utc - 1.month).month,
       year: Time.now.utc.year,
-    }).order(obtained: :desc).limit(student_params[:size])
+    }).order(obtained: :desc).limit(student_params[:size] || 5)
 
     render(json: overall_student_grades.map do |overall_student_grade|
       {
