@@ -6,6 +6,8 @@ RSpec.describe(Cicle, type: :model) do
   describe "associations" do
     it { is_expected.to(have_many(:student_subject_cicle).dependent(:destroy)) }
     it { is_expected.to(have_many(:overall_student_grades).dependent(:destroy)) }
+    it { is_expected.to(have_many(:students).through(:student_subject_cicle)) }
+    it { is_expected.to(have_many(:subjects).through(:student_subject_cicle)) }
   end
 
   describe "enums" do
