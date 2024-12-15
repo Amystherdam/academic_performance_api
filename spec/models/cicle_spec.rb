@@ -28,12 +28,12 @@ RSpec.describe(Cicle, type: :model) do
       }
     end
 
-    it "defines :month correctly" do
+    it "confirm month enum structure" do
       expect(described_class.months).to(eq(expected_month_enum))
     end
   end
 
-  describe "dependent destroy" do
+  describe "dependents" do
     let(:cicle) { create(:cicle) }
 
     before do
@@ -41,11 +41,11 @@ RSpec.describe(Cicle, type: :model) do
       create(:overall_student_grade, cicle:)
     end
 
-    it "destroys associated student_subject_cicle when cicle is destroyed" do
+    it "destroys the associated student_subject_cicle" do
       expect { cicle.destroy }.to(change(StudentSubjectCicle, :count).by(-1))
     end
 
-    it "destroys associated overall_student_grade when cicle is destroyed" do
+    it "destroys the associated overall_student_grade" do
       expect { cicle.destroy }.to(change(OverallStudentGrade, :count).by(-1))
     end
   end
