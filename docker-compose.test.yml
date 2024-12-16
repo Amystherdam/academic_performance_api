@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: academic_performance_api_test
+    ports:
+      - "5432:5432"
+  rspec:
+    build: .
+    command: bash -c "bundle exec rails db:drop db:create db:migrate db:seed && bundle exec rspec"
+    environment:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@db/academic_performance_api_test
+    depends_on:
+      - db
+
