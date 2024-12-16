@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
 
   resources :cicles
-  resources :grades
+  resources :grades, only: [:create]
   resources :subjects
   resources :students, only: [:index] do
     member do

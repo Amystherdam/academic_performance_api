@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :cicle do
-    month { (Time.now.utc - 1.month).month }
-    year { (Time.now.utc - 1.month).year }
+    month { Random.rand(1..12) }
+    year { Random.rand(2024..2100) }
   end
 end

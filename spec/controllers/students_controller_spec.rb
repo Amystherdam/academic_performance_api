@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe(StudentsController, type: :controller) do
   describe "GET #index" do
     let(:student) { create(:student) }
-    let(:cicle) { create(:cicle) }
+    let(:cicle) { create(:cicle, month: (Time.now.utc - 1.month).month, year: (Time.now.utc - 1.month).year) }
 
     before do
       create(:overall_student_grade, cicle:, student:, obtained: 90)
@@ -46,7 +46,7 @@ RSpec.describe(StudentsController, type: :controller) do
   end
 
   describe "GET #final_grades" do
-    let(:cicle) { create(:cicle) }
+    let(:cicle) { create(:cicle, month: (Time.now.utc - 1.month).month, year: (Time.now.utc - 1.month).year) }
     let(:student) { create(:student) }
     let(:subjekt) { create(:subject) }
 
@@ -70,7 +70,7 @@ RSpec.describe(StudentsController, type: :controller) do
   end
 
   describe "GET #bests" do
-    let(:cicle) { create(:cicle) }
+    let(:cicle) { create(:cicle, month: (Time.now.utc - 1.month).month, year: (Time.now.utc - 1.month).year) }
     let(:john) { create(:student) }
     let(:doe) { create(:student) }
     let(:mike) { create(:student) }
