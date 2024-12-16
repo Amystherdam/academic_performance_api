@@ -115,10 +115,26 @@ O compose principal tem todas as configurações pertinente como `redis`, `sidek
 
 ### Rodando o projeto
 
+Para rodar a API web basta executar o docker-compose.yml
 
+```
+docker-compose up --build
+```
+
+Ou com flag `-d` para segundo plano
+
+Para rodar a suite de testes, você pode executar
+
+```
+docker-compose -f docker-compose.test.yml up --build --exit-code-from rspec
+```
+
+Rode em primeiro plano para ver a CI executando e se existem erros (espero que não 🥶)
 
 ## Adicionais
 
 Foi implementado um arquivo de CI para o github actions que roda linters, testes e verifica saúde da aplicação a cada PR enviado e também na branch `main`
 
-Qualquer dúvida, estou a disposição!
+## Agradecimento
+
+Foi um prazer escrever essa doc pra você, obrigado por ler até aqui, estou a disposição para o que precisar! 💎🎉🙂
