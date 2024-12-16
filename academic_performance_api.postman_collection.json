@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "c20b5201-233d-4e0e-b490-d5b287efcd7e",
+		"name": "academic_performance_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6639747"
+	},
+	"item": [
+		{
+			"name": "students",
+			"item": [
+				{
+					"name": "/parcial_grades_by_student",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/students/{{studentId}}/parcial_grades",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}",
+								"parcial_grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/students",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/final_grades_by_student",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/students/{{studentId}}/final_grades",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}",
+								"final_grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/bests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/students/bests?size={{paginationSize}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"students",
+								"bests"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "{{paginationSize}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "grades",
+			"item": [
+				{
+					"name": "grades",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"grade\": {\n        \"student_id\": {{studentId}},\n        \"subject_id\": {{subjectId}},\n        \"obtained\": 90.00\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/grades",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"grades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "studentId",
+			"value": "10",
+			"type": "string"
+		},
+		{
+			"key": "paginationSize",
+			"value": "5",
+			"type": "string"
+		},
+		{
+			"key": "subjectId",
+			"value": "2",
+			"type": "string"
+		}
+	]
+}
