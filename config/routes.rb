@@ -2,10 +2,8 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
   mount Sidekiq::Web => "/sidekiq"
-
-  resources :cicles
+  
   resources :grades, only: [:create]
-  resources :subjects
   resources :students, only: [:index] do
     member do
       get "parcial_grades"
