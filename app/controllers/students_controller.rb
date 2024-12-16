@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class StudentsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :student_not_found
+
   before_action :set_student, only: [:parcial_grades, :final_grades]
 
   # GET /students
@@ -18,36 +20,6 @@ class StudentsController < ApplicationController
       }
     end)
   end
-
-  # GET /students/1
-  # def show
-  #   render(json: @student)
-  # end
-
-  # POST /students
-  # def create
-  #   @student = Student.new(student_params)
-
-  #   if @student.save
-  #     render(json: @student, status: :created, location: @student)
-  #   else
-  #     render(json: @student.errors, status: :unprocessable_entity)
-  #   end
-  # end
-
-  # PATCH/PUT /students/1
-  # def update
-  #   if @student.update(student_params)
-  #     render(json: @student)
-  #   else
-  #     render(json: @student.errors, status: :unprocessable_entity)
-  #   end
-  # end
-
-  # DELETE /students/1
-  # def destroy
-  #   @student.destroy!
-  # end
 
   # GET /students/1/parcial_grades
   def parcial_grades
@@ -101,6 +73,10 @@ class StudentsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_student
     @student = Student.find(params[:id])
+  end
+
+  def student_not_found
+    render(json: ErrorSerializer.new([]).serialize_for(status: :not_found, resource: "Student"), status: :not_found)
   end
 
   # Only allow a list of trusted parameters through.
