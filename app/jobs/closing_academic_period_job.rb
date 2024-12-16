@@ -6,7 +6,7 @@ class ClosingAcademicPeriodJob
   include Sidekiq::Job
 
   def perform
-    cicle = Cicle.find_by(month: (Time.now.utc - 1.month).month, year: Time.now.utc.year)
+    cicle = Cicle.find_by(month: (Time.now.utc - 1.month).month, year: (Time.now.utc - 1.month).year)
 
     return if cicle.nil?
 

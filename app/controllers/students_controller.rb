@@ -11,7 +11,7 @@ class StudentsController < ApplicationController
       .includes(:student)
       .where(cicles: {
         month: (Time.now.utc - 1.month).month,
-        year: Time.now.utc.year,
+        year: (Time.now.utc - 1.month).year,
       })
 
     students_data = if overall_student_grades.present?
@@ -55,7 +55,7 @@ class StudentsController < ApplicationController
   def final_grades
     grades = StudentSubjectCicle.joins(:cicle).includes(:student, :subject, :cicle).where(
       student_id: @student.id,
-      cicles: { month: (Time.now.utc - 1.month).month, year: Time.now.utc.year },
+      cicles: { month: (Time.now.utc - 1.month).month, year: (Time.now.utc - 1.month).year },
     )
 
     render(
@@ -74,7 +74,7 @@ class StudentsController < ApplicationController
   def bests
     overall_student_grades = OverallStudentGrade.joins(:cicle).includes(:student).where(cicles: {
       month: (Time.now.utc - 1.month).month,
-      year: Time.now.utc.year,
+      year: (Time.now.utc - 1.month).year,
     }).order(obtained: :desc).limit(student_params[:size] || 5)
 
     render(
