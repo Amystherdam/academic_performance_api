@@ -7,32 +7,48 @@ class StudentsController < ApplicationController
 
   # GET /students
   def index
-    overall_student_grades = OverallStudentGrade.joins(:cicle).includes(:student).where(cicles: {
-      month: (Time.now.utc - 1.month).month,
-      year: Time.now.utc.year,
-    })
+    overall_student_grades = OverallStudentGrade.joins(:cicle)
+      .includes(:student)
+      .where(cicles: {
+        month: (Time.now.utc - 1.month).month,
+        year: Time.now.utc.year,
+      })
 
-    render(json: overall_student_grades.map do |overall_student_grade|
-      {
-        id: overall_student_grade.student.id,
-        name: overall_student_grade.student.name,
-        obtained: overall_student_grade.obtained,
-      }
-    end)
+    students_data = if overall_student_grades.present?
+      overall_student_grades.map do |grade|
+        {
+          id: grade.student.id,
+          name: grade.student.name,
+          obtained: grade.obtained,
+        }
+      end
+    else
+      Student.all.map do |student|
+        {
+          id: student.id,
+          name: student.name,
+          obtained: nil,
+        }
+      end
+    end
+
+    render(json: students_data, status: :ok)
   end
 
   # GET /students/1/parcial_grades
   def parcial_grades
     grades = Grade.includes(:student, :subject).where(student_id: @student.id)
 
-    render(json: grades.map do |grade|
-      {
-        student_id: grade.student.id,
-        student_name: grade.student.name,
-        subject_name: grade.subject.name,
-        obtained: grade.obtained,
-      }
-    end)
+    render(
+      json: grades.map do |grade|
+        {
+          student_id: grade.student.id,
+          student_name: grade.student.name,
+          subject_name: grade.subject.name,
+          obtained: grade.obtained,
+        }
+      end,
+    )
   end
 
   # GET /students/1/final_grades
@@ -42,14 +58,16 @@ class StudentsController < ApplicationController
       cicles: { month: (Time.now.utc - 1.month).month, year: Time.now.utc.year },
     )
 
-    render(json: grades.map do |grade|
-      {
-        student_id: grade.student.id,
-        student_name: grade.student.name,
-        subject_name: grade.subject.name,
-        obtained: grade.obtained,
-      }
-    end)
+    render(
+      json: grades.map do |grade|
+        {
+          student_id: grade.student.id,
+          student_name: grade.student.name,
+          subject_name: grade.subject.name,
+          obtained: grade.obtained,
+        }
+      end,
+    )
   end
 
   # GET /students/bests
@@ -59,13 +77,16 @@ class StudentsController < ApplicationController
       year: Time.now.utc.year,
     }).order(obtained: :desc).limit(student_params[:size] || 5)
 
-    render(json: overall_student_grades.map do |overall_student_grade|
-      {
-        student_id: overall_student_grade.student.id,
-        student_name: overall_student_grade.student.name,
-        obtained: overall_student_grade.obtained,
-      }
-    end)
+    render(
+      json: overall_student_grades.map do |overall_student_grade|
+        {
+          student_id: overall_student_grade.student.id,
+          student_name: overall_student_grade.student.name,
+          obtained: overall_student_grade.obtained,
+        }
+      end,
+      status: :ok,
+    )
   end
 
   private
