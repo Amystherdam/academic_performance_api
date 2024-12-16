@@ -22,10 +22,10 @@ RSpec.describe(StudentsController, type: :controller) do
 
   describe "GET #parcial_grades" do
     let(:student) { create(:student) }
-    let(:subjekt) { create(:subject) }
+    let(:programming) { create(:subject) }
 
     before do
-      create(:grade, student:, subject: subjekt, obtained: 90)
+      create(:grade, student:, subject: programming, obtained: 90)
     end
 
     context "when student exist" do
@@ -33,7 +33,7 @@ RSpec.describe(StudentsController, type: :controller) do
         get :parcial_grades, params: { id: student.id }
 
         expect(response.parsed_body).to(contain_exactly(
-          a_hash_including("student_id" => student.id, "student_name" => student.name, "subject_name" => subjekt.name, "obtained" => 90),
+          a_hash_including("student_id" => student.id, "student_name" => student.name, "subject_name" => programming.name, "obtained" => 90),
         ))
       end
 
@@ -48,17 +48,17 @@ RSpec.describe(StudentsController, type: :controller) do
   describe "GET #final_grades" do
     let(:cicle) { create(:cicle, month: (Time.now.utc - 1.month).month, year: (Time.now.utc - 1.month).year) }
     let(:student) { create(:student) }
-    let(:subjekt) { create(:subject) }
+    let(:programming) { create(:subject) }
 
     before do
-      create(:student_subject_cicle, student:, subject: subjekt, cicle:, obtained: 90)
+      create(:student_subject_cicle, student:, subject: programming, cicle:, obtained: 90)
     end
 
     it "returns final grades for a specific student" do
       get :final_grades, params: { id: student.id }
 
       expect(response.parsed_body).to(contain_exactly(
-        a_hash_including("student_id" => student.id, "student_name" => student.name, "subject_name" => subjekt.name, "obtained" => 90),
+        a_hash_including("student_id" => student.id, "student_name" => student.name, "subject_name" => programming.name, "obtained" => 90),
       ))
     end
 

@@ -103,19 +103,19 @@ RSpec.describe(Subject, type: :model) do
   end
 
   describe "dependents" do
-    let(:subjekt) { create(:subject) }
+    let(:programming) { create(:subject) }
 
     before do
-      create(:student_subject_cicle, subject: subjekt)
-      create(:grade, subject: subjekt)
+      create(:student_subject_cicle, subject: programming)
+      create(:grade, subject: programming)
     end
 
     it "destroys the associated student_subject_cicle" do
-      expect { subjekt.destroy }.to(change(StudentSubjectCicle, :count).by(-1))
+      expect { programming.destroy }.to(change(StudentSubjectCicle, :count).by(-1))
     end
 
     it "destroys the associated grade" do
-      expect { subjekt.destroy }.to(change(Grade, :count).by(-1))
+      expect { programming.destroy }.to(change(Grade, :count).by(-1))
     end
   end
 end

@@ -10,11 +10,11 @@ RSpec.describe(Grade, type: :model) do
 
   describe "validations" do
     let(:student) { create(:student) }
-    let(:subjekt) { create(:subject) }
+    let(:programming) { create(:subject) }
 
     context "when obtained is a valid number" do
       it "allows obtained is a number between 0 and 100" do
-        grade = described_class.new(student:, subject: subjekt, obtained: 85)
+        grade = described_class.new(student:, subject: programming, obtained: 85)
         grade.save
 
         expect(grade.errors.size).to(eq(0))
@@ -23,7 +23,7 @@ RSpec.describe(Grade, type: :model) do
 
     context "when obtained is less than 0" do
       it "does not allow obtained is less than 0" do
-        grade = described_class.new(student:, subject: subjekt, obtained: -5)
+        grade = described_class.new(student:, subject: programming, obtained: -5)
         grade.save
 
         expect(grade.errors.first.full_message).to(eq("Obtained must be greater than or equal to 0"))
@@ -32,7 +32,7 @@ RSpec.describe(Grade, type: :model) do
 
     context "when obtained is greater than 100" do
       it "does not allow obtained is greater than 100" do
-        grade = described_class.new(student:, subject: subjekt, obtained: 105)
+        grade = described_class.new(student:, subject: programming, obtained: 105)
         grade.save
 
         expect(grade.errors.first.full_message).to(eq("Obtained must be less than or equal to 100"))
@@ -41,7 +41,7 @@ RSpec.describe(Grade, type: :model) do
 
     context "when obtained is not a number" do
       it "does not allow obtained is a non-numeric value" do
-        grade = described_class.new(student:, subject: subjekt, obtained: "not a number")
+        grade = described_class.new(student:, subject: programming, obtained: "not a number")
         grade.save
 
         expect(grade.errors.first.full_message).to(eq("Obtained is not a number"))
@@ -50,7 +50,7 @@ RSpec.describe(Grade, type: :model) do
 
     context "when obtained is nil" do
       it "does not allow obtained is nil" do
-        grade = described_class.new(student:, subject: subjekt, obtained: nil)
+        grade = described_class.new(student:, subject: programming, obtained: nil)
         grade.save
 
         expect(grade.errors.first.full_message).to(eq("Obtained is not a number"))

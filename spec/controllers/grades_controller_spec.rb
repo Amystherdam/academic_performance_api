@@ -5,14 +5,14 @@ require "rails_helper"
 RSpec.describe(GradesController, type: :controller) do
   describe "POST #create" do
     let(:student) { create(:student) }
-    let(:subjekt) { create(:subject) }
+    let(:programming) { create(:subject) }
 
     context "with valid params" do
       let(:valid_attributes) do
         {
           grade: {
             student_id: student.id,
-            subject_id: subjekt.id,
+            subject_id: programming.id,
             obtained: 85,
           },
         }
@@ -25,7 +25,7 @@ RSpec.describe(GradesController, type: :controller) do
       it "returns created grade" do
         post :create, params: valid_attributes
 
-        expect(response.parsed_body).to(include("student_id" => student.id, "subject_id" => subjekt.id, "obtained" => 85))
+        expect(response.parsed_body).to(include("student_id" => student.id, "subject_id" => programming.id, "obtained" => 85))
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe(GradesController, type: :controller) do
         {
           grade: {
             student_id: nil,
-            subject_id: subjekt.id,
+            subject_id: programming.id,
             obtained: nil,
           },
         }
