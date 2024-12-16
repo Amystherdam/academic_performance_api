@@ -129,7 +129,7 @@ Para rodar a suite de testes, você pode executar
 docker-compose -f docker-compose.test.yml up --build --exit-code-from rspec
 ```
 
-Rode em primeiro plano para ver a CI executando e se existem erros (espero que não 🥶)
+Rode em primeiro plano para ver a CI executando
 
 ## Adicionais
 
