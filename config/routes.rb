@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member do
       get "parcial_grades"
       get "final_grades"
+      get "subject_averages_preview"
     end  
     collection do
       get "bests"

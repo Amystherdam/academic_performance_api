@@ -3,7 +3,7 @@
 class StudentsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :student_not_found
 
-  before_action :set_student, only: [:parcial_grades, :final_grades]
+  before_action :set_student, only: [:parcial_grades, :final_grades, :subject_averages_preview]
 
   # GET /students
   def index
@@ -86,6 +86,25 @@ class StudentsController < ApplicationController
         }
       end,
       status: :ok,
+    )
+  end
+
+  def subject_averages_preview
+    grades = StudentSubjectCicle.joins(:cicle).includes(:student, :subject, :cicle).where(
+      student_id: @student.id,
+      cicles: { month: Time.now.utc.month, year: Time.now.utc.year },
+    )
+
+    render(
+      json: grades.map do |grade|
+        {
+          student_id: grade.student.id,
+          student_name: grade.student.name,
+          subject_name: grade.subject.name,
+          obtained: grade.obtained,
+          month: grade.cicle.month.capitalize,
+        }
+      end,
     )
   end
 

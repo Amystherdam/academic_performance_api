@@ -65,6 +65,25 @@
 					"response": []
 				},
 				{
+					"name": "/subject_averages_preview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/students/{{studentId}}/subject_averages_preview",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"students",
+								"{{studentId}}",
+								"subject_averages_preview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/bests",
 					"request": {
 						"method": "GET",
