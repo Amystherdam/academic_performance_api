@@ -43,7 +43,7 @@ gem "bootsnap", require: false
 
 group :development, :test do
   # Pry is a runtime developer console and IRB alternative with powerful introspection capabilities. [https://github.com/pry/pry]
-  gem "pry", "~> 0.15.0"
+  gem "pry", "~> 0.15.2"
 
   # A terminal spinner for tasks that have non-deterministic time frame [https://github.com/piotrmurach/tty-spinner]
   gem "tty-spinner", "~> 0.9.3"
