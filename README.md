@@ -21,7 +21,7 @@ Todas as issues do projeto foram inseridas e ligeiramente documentadas no github
 - Rails 7.2.1
 - rspec-rails 7.1
 - PostgreSQL 17.2
-- Mais informações de versões no `Gemfile` e no `package.json`
+- Mais informações de versões no `Gemfile` e no `Gemfile.lock`
 
 ## Diagrama do banco de dados
 
