@@ -71,7 +71,7 @@ end
 
 group :development do
   # rubocop kit
-  gem "rubocop", "~> 1.69"
+  gem "rubocop", "~> 1.70"
   gem "rubocop-performance", "~> 1.23"
   gem "rubocop-rails", "~> 2.27"
   gem "rubocop-shopify", "~> 2.15"
