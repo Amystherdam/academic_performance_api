@@ -18,7 +18,7 @@ gem "redis", ">= 4.0.1"
 gem "sidekiq", "~> 7.3"
 
 # Sidekiq-Cron runs a thread alongside Sidekiq workers to schedule jobs at specified times. [https://github.com/sidekiq-cron/sidekiq-cron]
-gem "sidekiq-cron", "~> 2.0"
+gem "sidekiq-cron", "~> 2.1"
 
 # The CORS spec allows web applications to make cross domain [https://github.com/cyu/rack-cors]
 gem "rack-cors", "~> 2.0"
