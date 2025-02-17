@@ -75,7 +75,7 @@ group :development do
   gem "rubocop-performance", "~> 1.23"
   gem "rubocop-rails", "~> 2.27"
   gem "rubocop-shopify", "~> 2.15"
-  gem "rubocop-rspec", "~> 3.3"
+  gem "rubocop-rspec", "~> 3.5"
 
   # The Ruby LSP is an implementation of the language server protocol for Ruby [https://github.com/Shopify/ruby-lsp]
   gem "ruby-lsp", "~> 0.22.1"
