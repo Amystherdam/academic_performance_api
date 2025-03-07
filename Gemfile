@@ -15,7 +15,7 @@ gem "puma", ">= 5.0"
 gem "redis", ">= 4.0.1"
 
 # Simple, efficient background processing for Ruby. [https://github.com/sidekiq/sidekiq]
-gem "sidekiq", "~> 7.3"
+gem "sidekiq", "~> 8.0"
 
 # Sidekiq-Cron runs a thread alongside Sidekiq workers to schedule jobs at specified times. [https://github.com/sidekiq-cron/sidekiq-cron]
 gem "sidekiq-cron", "~> 2.0"
